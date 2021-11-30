@@ -26,7 +26,7 @@ fetch(
 #### Browser
 
 ```js
-import fetch from '@glomex/custom-fetch/browser';
+import fetch from 'https://unpkg.com/@glomex/custom-fetch@1.0.2/dist/custom-fetch.modern.js';
 fetch(
   'https://my-endpoint',
   // also see https://developer.mozilla.org/en-US/docs/Web/API/fetch#parameters
@@ -34,6 +34,7 @@ fetch(
   { timeout: 5000 }
 );
 ```
+
 ## License
 
 [Apache 2.0 License](https://oss.ninja/apache-2.0-header/glomex)
