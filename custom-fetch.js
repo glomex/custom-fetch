@@ -13,9 +13,9 @@ export default function customFetch(
   } = {},
 ) {
   const headers = { 'Content-Type': 'application/json' };
-  let signal = undefined;
+  let timeoutSignal = undefined;
   if (timeout) {
-    ({ signal } = createTimeoutSignal(AbortController, timeout));
+    timeoutSignal = createTimeoutSignal(AbortController, timeout));
   }
   const config = {
     method: body ? 'POST' : 'GET',
@@ -30,12 +30,14 @@ export default function customFetch(
   } else {
     config.body = body;
   }
-  if (signal) {
-    config.signal = signal;
+  if (timeoutSignal) {
+    config.signal = timeoutSignal.signal;
   }
 
   return fetch(endpoint, config).then(async (response) => {
-    timeoutSignal.clear(signal);
+    if (timeoutSignal) {
+      timeoutSignal.clear();
+    }
     if (response.ok) {
       return await response.json()
     } else {
