@@ -17,6 +17,9 @@
       "default": "./dist/custom-fetch.modern.js"
     }
   },
+  "files": [
+    "dist"
+  ],
   "scripts": {
     "prepare": "npm run -s build",
     "build": "microbundle *.js",
