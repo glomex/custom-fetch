@@ -25,8 +25,10 @@ export default function customFetch(
       ...customConfig.headers,
     }
   }
-  if (body) {
+  if (body && config.headers === 'application/json') {
     config.body = JSON.stringify(body);
+  } else {
+    config.body = body;
   }
   if (signal) {
     config.signal = signal;
