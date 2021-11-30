@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "A convenience wrapper for fetch, which can be used in node and in the browser.",
   "type": "module",
-  "source": "index.mjs",
+  "source": "index.js",
   "main": "./dist/index.cjs",
   "module": "./dist/index.module.js",
   "unpkg": "./dist/index.umd.js",
@@ -19,8 +19,8 @@
   },
   "scripts": {
     "prepare": "npm run -s build",
-    "build": "microbundle *.mjs",
-    "dev": "microbundle watch *.mjs",
+    "build": "microbundle *.js",
+    "dev": "microbundle watch *.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "glomex GmbH",
