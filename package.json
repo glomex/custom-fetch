@@ -1,6 +1,6 @@
 {
   "name": "@glomex/custom-fetch",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "A convenience wrapper for fetch, which can be used in node and in the browser.",
   "type": "module",
   "source": "index.js",
