@@ -1,0 +1,40 @@
+{
+  "name": "@glomex/custom-fetch",
+  "version": "1.0.0",
+  "description": "A convenience wrapper for fetch, which can be used in node and in the browser.",
+  "type": "module",
+  "source": "index.mjs",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.module.js",
+  "unpkg": "./dist/index.umd.js",
+  "exports": {
+    ".": {
+      "require": "./dist/index.cjs",
+      "default": "./dist/index.modern.js"
+    },
+    "./browser": {
+      "require": "./dist/custom-fetch.cjs",
+      "default": "./dist/custom-fetch.modern.js"
+    }
+  },
+  "scripts": {
+    "prepare": "npm run -s build",
+    "build": "microbundle *.mjs",
+    "dev": "microbundle watch *.mjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "glomex GmbH",
+  "license": "Apache-2.0",
+  "repository": "github:glomex/custom-fetch",
+  "bugs": {
+    "url": "https://github.com/glomex/custom-fetch/issues"
+  },
+  "dependencies": {
+    "abort-controller": "^3.0.0",
+    "node-fetch": "^3.1.0"
+  },
+  "devDependencies": {
+    "@ungap/global-this": "^0.4.4",
+    "microbundle": "^0.14.2"
+  }
+}
