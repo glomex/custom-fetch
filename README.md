@@ -26,7 +26,7 @@ fetch(
 #### Browser
 
 ```js
-import fetch from '@glomex/custom-fetch';
+import fetch from '@glomex/custom-fetch/browser';
 fetch(
   'https://my-endpoint',
   // also see https://developer.mozilla.org/en-US/docs/Web/API/fetch#parameters
