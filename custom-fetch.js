@@ -15,7 +15,7 @@ export default function customFetch(
   const headers = { 'Content-Type': 'application/json' };
   let timeoutSignal = undefined;
   if (timeout) {
-    timeoutSignal = createTimeoutSignal(AbortController, timeout));
+    timeoutSignal = createTimeoutSignal(AbortController, timeout);
   }
   const config = {
     method: body ? 'POST' : 'GET',
