@@ -25,7 +25,7 @@ export default function customFetch(
       ...customConfig.headers,
     }
   }
-  if (body && config.headers === 'application/json') {
+  if (body && config.headers['Content-Type'] === 'application/json') {
     config.body = JSON.stringify(body);
   } else {
     config.body = body;
@@ -33,16 +33,18 @@ export default function customFetch(
   if (timeoutSignal) {
     config.signal = timeoutSignal.signal;
   }
-
   return fetch(endpoint, config).then(async (response) => {
     if (timeoutSignal) {
       timeoutSignal.clear();
     }
-    if (response.ok) {
+    const contentType = response.headers.get('content-type') || '';
+    if (response.ok && contentType.indexOf('application/json') > -1) {
       return await response.json()
+    } else if (response.ok) {
+      return await response.text();
     } else {
-      const errorMessage = await response.text()
-      return Promise.reject(new Error(errorMessage))
+      const errorMessage = await response.text();
+      return Promise.reject(new Error(errorMessage));
     }
   });
 }
