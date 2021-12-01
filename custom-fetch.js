@@ -9,7 +9,7 @@ export default function customFetch(
   {
     fetch = globalThis.fetch,
     AbortController = globalThis.AbortController,
-    responseType = 'json',
+    responseType = 'text',
     timeout
   } = {},
 ) {
@@ -47,7 +47,7 @@ export default function customFetch(
     for (const i in response) {
       if (typeof response[i] !== 'function') result[i] = response[i];
     }
-    const data = await response[responseType || 'text']();
+    const data = await response[responseType]();
     result.data = data;
     try {
       // just in case we can parse the result

@@ -10,7 +10,7 @@ describe('custom-fetch', () => {
   it('calls fetch with given parameters', () => {
     const fetch = sinon.stub().returns(Promise.resolve({
       ok: true,
-      json: () => {}
+      text: () => {}
     }));
     return customFetch('https://url', { my: 'options' }, { fetch }).then(() => {
       assert.equal(fetch.firstCall.args[0], 'https://url');
@@ -21,10 +21,10 @@ describe('custom-fetch', () => {
     });
   });
 
-  it('JSON.stringifies given "body" when object and assign JSON content-type', () => {
+  it('JSON.stringifies given "body" when object and assigns JSON content-type', () => {
     const fetch = sinon.stub().returns(Promise.resolve({
       ok: true,
-      json: () => {}
+      text: () => {}
     }));
     return customFetch('https://url', {
       body: { my: 'object' }
@@ -42,7 +42,7 @@ describe('custom-fetch', () => {
   it('assigns body as is, when string', () => {
     const fetch = sinon.stub().returns(Promise.resolve({
       ok: true,
-      json: () => {}
+      text: () => {}
     }));
     return customFetch('https://url', {
       body: 'my string'
@@ -57,7 +57,6 @@ describe('custom-fetch', () => {
   it('returns error when response is not ok', () => {
     const fetch = sinon.stub().returns(Promise.resolve({
       ok: false,
-      json: () => {},
       text: () => 'The server text response'
     }));
     return customFetch('https://url', {
@@ -69,11 +68,11 @@ describe('custom-fetch', () => {
     });
   });
 
-  it('returns all response non-function response properties and response of json() in data', () => {
+  it('returns all response non-function response properties and response of text() in data', () => {
     const fetch = sinon.stub().returns(Promise.resolve({
       ok: true,
       other: 'prop',
-      json: () => ({ my: 'result' })
+      text: () => ({ my: 'result' })
     }));
     return customFetch('https://url', {}, { fetch }).then((result) => {
       assert.deepStrictEqual(result, {
@@ -86,10 +85,10 @@ describe('custom-fetch', () => {
     })
   });
 
-  it('parses response of json() in data', () => {
+  it('parses response of text() in data', () => {
     const fetch = sinon.stub().returns(Promise.resolve({
       ok: true,
-      json: () => '{ "my": "result" }'
+      text: () => '{ "my": "result" }'
     }));
     return customFetch('https://url', {}, { fetch }).then((result) => {
       assert.deepStrictEqual(result, {
@@ -101,14 +100,14 @@ describe('custom-fetch', () => {
     })
   });
 
-  it('uses text() of response when "responseType" = "text"', () => {
+  it('uses json() of response when "responseType" = "json"', () => {
     const fetch = sinon.stub().returns(Promise.resolve({
       ok: true,
-      text: () => '{ "my": "result" }'
+      json: () => ({ my: 'result' })
     }));
     return customFetch('https://url', {}, {
       fetch,
-      responseType: 'text'
+      responseType: 'json'
     }).then((result) => {
       assert.deepStrictEqual(result, {
         data: {
