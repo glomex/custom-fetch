@@ -31,7 +31,7 @@ fetch(
   'https://my-endpoint',
   // also see https://developer.mozilla.org/en-US/docs/Web/API/fetch#parameters
   { method: 'GET' },
-  { timeout: 5000 }
+  { timeout: 5000, responseType: 'text' }
 );
 ```
 
