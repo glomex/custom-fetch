@@ -9,25 +9,26 @@ export default function customFetch(
   {
     fetch = globalThis.fetch,
     AbortController = globalThis.AbortController,
+    responseType = 'json',
     timeout
   } = {},
 ) {
-  const headers = { 'Content-Type': 'application/json' };
   let timeoutSignal = undefined;
   if (timeout) {
     timeoutSignal = createTimeoutSignal(AbortController, timeout);
   }
   const config = {
     method: body ? 'POST' : 'GET',
-    ...customConfig,
-    headers: {
-      ...headers,
-      ...customConfig.headers,
-    }
+    ...customConfig
   }
-  if (body && config.headers['Content-Type'] === 'application/json') {
+  // from here: https://github.com/developit/redaxios/blob/ab73a298ba9849c59d670230a9d24fd7b329fb4d/src/index.js#L171
+  if (body && typeof body === 'object' && typeof body.append !== 'function') {
     config.body = JSON.stringify(body);
-  } else {
+    config.headers = {
+      ...config.headers,
+      'content-type': 'application/json'
+    };
+  } else if (body) {
     config.body = body;
   }
   if (timeoutSignal) {
@@ -37,15 +38,24 @@ export default function customFetch(
     if (timeoutSignal) {
       timeoutSignal.clear();
     }
-    const contentType = response.headers.get('content-type') || '';
-    if (response.ok && contentType.indexOf('application/json') > -1) {
-      return await response.json()
-    } else if (response.ok) {
-      return await response.text();
-    } else {
+    if (!response.ok) {
       const errorMessage = await response.text();
       return Promise.reject(new Error(errorMessage));
     }
+    const result = {};
+    // see https://github.com/developit/redaxios/blob/ab73a298ba9849c59d670230a9d24fd7b329fb4d/src/index.js#L204-L213
+    for (const i in response) {
+      if (typeof response[i] !== 'function') result[i] = response[i];
+    }
+    const data = await response[responseType || 'text']();
+    result.data = data;
+    try {
+      // just in case we can parse the result
+      result.data = JSON.parse(data);
+    } catch(error) {
+      // ignore
+    }
+    return result;
   });
 }
 
