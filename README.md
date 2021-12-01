@@ -4,7 +4,7 @@ A convenience wrapper for fetch, which can be used in node and in the browser.
 
 ### It handles the following things:
 
-- Automatically assumes that `Content-Type': application/json` is used (encodes body with `JSON.stringify` and automatically resolves the response with `.json()`)
+- Automatically assumes that `Content-Type': application/json` is used, when body is given (encodes body with `JSON.stringify` and automatically resolves the JSON response)
 - Allows to pass a timeout
 
 ### Usage
